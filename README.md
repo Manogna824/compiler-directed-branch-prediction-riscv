@@ -32,8 +32,7 @@ The hint bit converted 6 of 7 mispredicted branches into correctly-predicted tak
 - The **Branch Unit** in the EX stage validates the prediction against the actual ALU-resolved outcome. On a match, execution continues uninterrupted; on a mismatch, a standard pipeline flush and redirect occurs — identical in cost to the baseline's flush.
 - The hint bit is propagated through `IF/ID` and `ID/EX` pipeline registers to keep validation synchronized with the correct instruction. No changes were required in MEM or WB.
 
-![Pipeline architecture](images/pipeline_architecture.png)
-*5-stage pipeline with hint-bit prediction logic and flush paths (IF, ID, EX modified; MEM/WB unchanged).*
+
 
 ## Baseline Performance Across Kernels
 
@@ -47,7 +46,7 @@ The baseline architecture (predict-not-taken) was characterized across five stan
 | Strlen | 91 | 39 | 20 | 0.429 |
 | Matrix Multiply | 91 | 40 | 14 | 0.711 |
 
-> **Scope note:** The hint-bit modified architecture has currently been implemented and benchmarked against the baseline for the **Fibonacci** kernel only. Extending the hint-bit comparison to selection sort, bitcount, strlen, and matrix multiply is planned as future work — see [Limitations](#limitations--future-work).
+> **Scope note:** The hint-bit modified architecture has currently been implemented and benchmarked against the baseline for the **Fibonacci** kernel only. Extending the hint-bit comparison to selection sort, bitcount, strlen, and matrix multiply is planned as future work.
 
 ## Hardware Validation (Zybo Z7-10 FPGA)
 
@@ -55,8 +54,6 @@ Functional correctness was verified first in simulation (Xilinx XSim), then vali
 
 The captured hardware waveform confirmed the PC correctly jumping backward on hint-predicted taken branches, and showed `total_mispred` remaining stable through nearly the entire loop — matching simulation results exactly and proving cycle-accurate behavior at real clock speeds.
 
-![ILA waveform capture](images/ila_waveform.png)
-*ILA-captured waveform confirming real-time execution accuracy on FPGA.*
 
 ## Area & Timing (Post-Implementation)
 
